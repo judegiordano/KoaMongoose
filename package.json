@@ -1,0 +1,64 @@
+{
+   "name": "tsorm",
+   "version": "0.0.1",
+   "description": "Awesome project developed with TypeORM.",
+   "scripts": {
+      "prebuild": "eslint --fix --ext .ts,.tsx .",
+      "dev": "ts-node src/index.ts",
+      "build": "tsc",
+      "postinstall": "npm run build",
+      "start": "node build/index.js"
+   },
+   "devDependencies": {
+      "@types/bcrypt": "^3.0.0",
+      "@types/body-parser": "^1.19.0",
+      "@types/dateformat": "^3.0.1",
+      "@types/express": "^4.17.9",
+      "@types/jsonwebtoken": "^8.5.0",
+      "@types/koa": "^2.11.6",
+      "@types/koa-bodyparser": "^4.3.0",
+      "@types/koa-cors": "0.0.0",
+      "@types/koa-helmet": "^6.0.1",
+      "@types/koa-json": "^2.0.18",
+      "@types/koa-logger": "^3.1.1",
+      "@types/koa-ratelimit": "^4.2.2",
+      "@types/koa-response-time": "^2.1.0",
+      "@types/koa-router": "^7.4.1",
+      "@types/node": "^8.10.66",
+      "@types/nodemailer": "^6.4.0",
+      "@typescript-eslint/parser": "^4.10.0",
+      "eslint": "^7.16.0",
+      "husky": "^4.3.6",
+      "ts-node": "3.3.0",
+      "typescript": "3.3.3333"
+   },
+   "dependencies": {
+      "@types/mongodb": "^3.6.3",
+      "bcrypt": "^5.0.0",
+      "body-parser": "^1.18.1",
+      "dateformat": "^4.3.1",
+      "dotenv": "^8.2.0",
+      "express": "^4.15.4",
+      "jsonwebtoken": "^8.5.1",
+      "koa": "^2.13.0",
+      "koa-bodyparser": "^4.3.0",
+      "koa-cors": "0.0.16",
+      "koa-helmet": "^6.0.0",
+      "koa-json": "^2.0.2",
+      "koa-logger": "^3.2.1",
+      "koa-ratelimit": "^5.0.0",
+      "koa-response-time": "^2.1.0",
+      "koa-router": "^10.0.0",
+      "koa-slow-down": "^1.0.1",
+      "mongoose": "^5.11.10",
+      "mssql": "^6.3.0",
+      "node-cache": "^5.1.2",
+      "nodemailer": "^6.4.17",
+      "winston": "^3.3.3"
+   },
+   "husky": {
+      "hooks": {
+         "pre-commit": "npm run postinstall"
+      }
+   }
+}

@@ -1,0 +1,53 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "pwa-node",
+			"request": "launch",
+			"name": "DEV",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"program": "${workspaceFolder}\\build\\index.js",
+			"preLaunchTask": "tsc: compile",
+			"outFiles": [
+				"${workspaceFolder}/build/**/*.js"
+			],
+			"env": {
+				"NODE_ENV": "development"
+			}
+		},
+		{
+			"type": "pwa-node",
+			"request": "launch",
+			"name": "STG",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"program": "${workspaceFolder}\\build\\index.js",
+			"preLaunchTask": "tsc: compile",
+			"outFiles": [
+				"${workspaceFolder}/build/**/*.js"
+			],
+			"env": {
+				"NODE_ENV": "staging"
+			}
+		},
+		{
+			"type": "pwa-node",
+			"request": "launch",
+			"name": "PROD",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"program": "${workspaceFolder}\\build\\index.js",
+			"preLaunchTask": "tsc: compile",
+			"outFiles": [
+				"${workspaceFolder}/build/**/*.js"
+			],
+			"env": {
+				"NODE_ENV": "production"
+			}
+		}
+	]
+}
