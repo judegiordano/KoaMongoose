@@ -4,7 +4,9 @@ import { IDeleteAccount, ILogin, IRegister, IUpdateEmail, IUpdatePass } from "..
 import { signUser } from "../helpers/jwt";
 import { IJwtPayload } from "../types/IJWT";
 import { RequestErrors } from "../types/Constants";
+import { IResponse } from "../types/IRoute";
 import jwt from "../middleware/jwt";
+import limiter from "../middleware/limiter";
 import user from "../repositories/UserRepository";
 
 const router = new Router({ prefix: "/user" });
@@ -16,7 +18,7 @@ router.post("/login", async (ctx: koa.Context, next: koa.Next): Promise<Next> =>
 
 	try {
 		const query: IJwtPayload = await user.Login(req);
-		ctx.body = { token: await signUser(query) as string };
+		ctx.body = { token: await signUser(query) };
 		return await next();
 	} catch (e) {
 		throw Error(e);
@@ -30,7 +32,7 @@ router.post("/register", async (ctx: koa.Context, next: koa.Next): Promise<Next>
 
 	try {
 		const query: IJwtPayload = await user.Register(req);
-		ctx.body = { token: await signUser(query) as string };
+		ctx.body = { token: await signUser(query) };
 		return await next();
 	} catch (e) {
 		throw Error(e);
@@ -46,10 +48,10 @@ router.post("/validate", jwt, async (ctx: koa.Context, next: koa.Next): Promise<
 	}
 });
 
-router.post("/update/email", jwt, async (ctx: koa.Context, next: koa.Next): Promise<Next> => {
+router.post("/update/email", limiter, jwt, async (ctx: koa.Context, next: koa.Next): Promise<Next> => {
 
 	const req = <IUpdateEmail>ctx.request.body;
-	if (!req.newEmail) throw Error(RequestErrors.missingEmail);
+	if (!req.newEmail) throw Error(RequestErrors.missingNewEmail);
 
 	try {
 		const query = await user.UpdateEmail({
@@ -58,17 +60,17 @@ router.post("/update/email", jwt, async (ctx: koa.Context, next: koa.Next): Prom
 			newEmail: req.newEmail
 		});
 
-		ctx.body = { token: await signUser(query) as string };
+		ctx.body = { token: await signUser(query) };
 		return await next();
 	} catch (e) {
 		throw Error(e);
 	}
 });
 
-router.post("/update/password", jwt, async (ctx: koa.Context, next: koa.Next): Promise<Next> => {
+router.post("/update/password", limiter, jwt, async (ctx: koa.Context, next: koa.Next): Promise<Next> => {
 
 	const req = <IUpdatePass>ctx.request.body;
-	if (!req.newPassword) throw Error(RequestErrors.missingPassword);
+	if (!req.newPassword) throw Error(RequestErrors.missingNewPassword);
 
 	try {
 		const query = await user.UpdatePassword({
@@ -98,9 +100,26 @@ router.post("/delete", jwt, async (ctx: koa.Context, next: koa.Next): Promise<Ne
 
 		ctx.body = {
 			ok: true,
-			status: ctx.status,
+			status: 200,
 			message: "account deleted"
-		};
+		} as IResponse;
+		return await next();
+	} catch (e) {
+		throw Error(e);
+	}
+});
+
+router.post("/forgotpassword", async (ctx: koa.Context, next: koa.Next): Promise<Next> => {
+	const req = ctx.request.body;
+	if (!req.email) throw Error(RequestErrors.missingEmail);
+
+	try {
+		await user.ForgotPassword(req.email);
+		ctx.body = {
+			ok: true,
+			status: 200,
+			message: `email sent to ${req.email}`
+		} as IResponse;
 		return await next();
 	} catch (e) {
 		throw Error(e);

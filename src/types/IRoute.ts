@@ -1,5 +1,5 @@
-export interface IErr {
+export interface IResponse {
 	ok: boolean,
 	status: number,
-	error: string
+	message: string
 }

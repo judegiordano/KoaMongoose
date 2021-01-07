@@ -3,9 +3,6 @@ import IUser from "../types/entities/IUser";
 
 const User = new mongoose.Schema(
 	{
-		_id: {
-			type: String
-		},
 		email: {
 			type: String,
 			required: true

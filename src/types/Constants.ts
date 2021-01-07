@@ -7,8 +7,9 @@ export const enum Environment {
 
 export const enum RequestErrors {
 	missingBody = "missing body { email:<string>, password:<string> }",
-	missingEmail = "missing new email field { newEmail:<string> }",
-	missingPassword = "missing new password field { newPassword:<string> }"
+	missingEmail = "missing email field { email:<string> }",
+	missingNewEmail = "missing new email field { newEmail:<string> }",
+	missingNewPassword = "missing new password field { newPassword:<string> }"
 }
 
 export const enum JWTErrs {
@@ -24,7 +25,8 @@ export const enum UserErrors {
 }
 
 export const enum RateLimit {
-	error = "Too Many Requests. Please Try Again later."
+	generic = "Too Many Requests. Please Try Again later.",
+	oneDay = "Too Many Requests. Please Try Again Tomorrow."
 }
 
 export const enum Database {

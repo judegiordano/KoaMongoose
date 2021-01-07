@@ -1,9 +1,7 @@
 import * as dotenv from "dotenv";
-import Koa from "koa";
 import path from "path";
 import os from "os";
 import { Environment, RateLimit } from "../types/Constants";
-import IRateLimitOptions from "../types/IRateLimitOptions";
 
 dotenv.config();
 
@@ -32,24 +30,16 @@ const config = {
 	EMAIL_PASSWORD: <string>process.env.EMAIL_PASSWORD || undefined,
 	CORES: <number>cors,
 	IS_COMPILED: <boolean>path.extname(__filename).includes("js"),
-	SLOW_DOWN: {
-		windowMs: <number>30 * 60 * 1000, // 10 minutes
-		delayAfter: <number>50,
-		delayMs: <number>500
+	RATE_LIMIT: {
+		interval: <object>{ hour: <number>1 },
+		delayAfter: <number>100,
+		timeWait: <number>500,
+		max: <number>300,
+		message: <string>RateLimit.generic,
 	},
-	RATE_LIMIT: <IRateLimitOptions>{
-		driver: "memory",
-		db: new Map(),
-		duration: (60000 * 30), // 30 minutes,
-		errorMessage: RateLimit.error,
-		id: (ctx: Koa.Context) => ctx.ip,
-		headers: {
-			remaining: "Rate-Limit-Remaining",
-			reset: "Rate-Limit-Reset",
-			total: "Rate-Limit-Total"
-		},
-		max: 100,
-		disableHeader: false
+	RATE_LIMIT_STORE: {
+		collectionName: <string>process.env.RATE_LIMIT_STORE_COLLECTION || "ratelimits",
+		collectionAbuseName: <string>process.env.RATE_LIMIT_STORE_COLLECTION_ABUSE || "ratelimitsabuses"
 	},
 	CACHE_SETTINGS: {
 		stdTTL: <number>100,

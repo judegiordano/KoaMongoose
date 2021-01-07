@@ -1,5 +1,5 @@
 import Koa, { Next } from "koa";
-import { IErr } from "../types/IRoute";
+import { IResponse } from "../types/IRoute";
 
 export default async (ctx: Koa.Context, next: Koa.Next): Promise<Next> => {
 	try {
@@ -9,7 +9,7 @@ export default async (ctx: Koa.Context, next: Koa.Next): Promise<Next> => {
 		ctx.body = {
 			ok: false,
 			status: ctx.status,
-			error: e.message
-		} as IErr;
+			message: e.message
+		} as IResponse;
 	}
 };

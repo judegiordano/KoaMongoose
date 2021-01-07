@@ -20,6 +20,8 @@ const connect = async (): Promise<void> => {
 			await mongoose.connect(CONNECTION_STRING, {
 				useNewUrlParser: true,
 				useUnifiedTopology: true,
+				useFindAndModify: false,
+				useCreateIndex: true,
 				poolSize: 10,
 				serverSelectionTimeoutMS: 5000,
 				socketTimeoutMS: 45000

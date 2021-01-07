@@ -3,12 +3,13 @@ import IUser from "../types/entities/IUser";
 import { IDeleteAccount, ILogin, IRegister, IUpdateEmail, IUpdatePass } from "../types/IUserActions";
 import { compare, hash } from "../helpers/password";
 import { UserErrors } from "../types/Constants";
+import sendMail from "../services/mailer";
 
 export default class UserRepository {
 
 	public static async Login(login: ILogin): Promise<IUser> {
 		try {
-			const query = await User.findOne({
+			const query = <IUser>await User.findOne({
 				email: login.email,
 			});
 			if (!query) throw Error(UserErrors.emailNotFound);
@@ -24,7 +25,7 @@ export default class UserRepository {
 
 	public static async Register(register: IRegister): Promise<IUser> {
 		try {
-			const exists = await User.findOne({
+			const exists = <IUser>await User.findOne({
 				email: register.email
 			});
 			if (exists) throw Error(UserErrors.emailTaken);
@@ -39,8 +40,9 @@ export default class UserRepository {
 			newUser.email = register.email;
 			newUser.password = hashedPass;
 			newUser.activated = false;
-			newUser.created = new Date;
-			newUser.lastUpdated = new Date;
+			newUser.created = new Date();
+			newUser.lastUpdated = new Date();
+			newUser.isNew = true;
 
 			return await newUser.save();
 		} catch (e) {
@@ -50,22 +52,20 @@ export default class UserRepository {
 
 	public static async UpdateEmail(update: IUpdateEmail): Promise<IUser> {
 		try {
-			const exists = await User.findOne({
-				where: {
-					id: update._id,
-					email: update.email
-				}
+			const exists = <IUser>await User.findOne({
+				_id: update._id,
+				email: update.email
 			});
 			if (!exists) throw Error(UserErrors.wrongCreds);
 
-			const taken = await User.findOne({ email: update.newEmail });
+			const taken = <IUser>await User.findOne({ email: update.newEmail });
 			if (taken) throw Error(UserErrors.emailTaken);
 
 			exists.email = update.newEmail;
-			exists.lastUpdated = new Date;
-			await exists.save();
+			exists.lastUpdated = new Date();
+			exists.isNew = false;
 
-			return exists;
+			return await exists.save();
 		} catch (e) {
 			throw Error(e);
 		}
@@ -73,21 +73,20 @@ export default class UserRepository {
 
 	public static async UpdatePassword(update: IUpdatePass): Promise<IUser> {
 		try {
-			const exists = await User.findOne({
-				where: {
-					id: update._id,
-					email: update.email
-				}
+			const exists = <IUser>await User.findOne({
+				_id: update._id,
+				email: update.email
+
 			});
 			if (!exists) throw Error(UserErrors.wrongCreds);
 
 			const hashedPass = await hash(update.newPassword);
 
 			exists.password = hashedPass;
-			exists.lastUpdated = new Date;
-			await exists.save();
+			exists.lastUpdated = new Date();
+			exists.isNew = false;
 
-			return exists;
+			return await exists.save();
 		} catch (e) {
 			throw Error(e);
 		}
@@ -95,19 +94,30 @@ export default class UserRepository {
 
 	public static async DeleteUser(remove: IDeleteAccount): Promise<void> {
 		try {
-			const exists = await User.findOne({
-				where: {
-					id: remove._id,
-					email: remove.email
-				}
+			const exists = <IUser>await User.findOne({
+				_id: remove._id,
+				email: remove.email
 			});
 			if (!exists) throw Error(UserErrors.wrongCreds);
 
 			const hash = await compare(remove.password, exists.password);
 			if (!hash) throw Error(UserErrors.wrongPassword);
 
-			await User.remove(exists);
+			await User.deleteOne(exists);
 
+		} catch (e) {
+			throw Error(e);
+		}
+	}
+
+	public static async ForgotPassword(email: string): Promise<void> {
+		try {
+			const query = <IUser>await User.findOne({
+				email: email,
+			});
+			if (!query) throw Error(UserErrors.emailNotFound);
+
+			await sendMail({ to: query.email, subject: "Test", text: "This is just a test" });
 		} catch (e) {
 			throw Error(e);
 		}

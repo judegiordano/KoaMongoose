@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport({
 	}
 });
 
-const sendMail = async (options: IMailOptions) => {
+const sendMail = async (options: IMailOptions): Promise<any> => {
 	return new Promise((resolve, reject) => {
 		transporter.sendMail(options, (error, info) => {
 			if (error) {
