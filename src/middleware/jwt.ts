@@ -2,7 +2,7 @@ import Koa, { Next } from "koa";
 import { verify } from "../helpers/jwt";
 import { JWTErrs } from "../types/Constants";
 
-const authenticateToken = async (ctx: Koa.Context, next: Koa.Next): Promise<Next> => {
+export default async (ctx: Koa.Context, next: Koa.Next): Promise<Next> => {
 	const authHeader = ctx.header["authorization"];
 	const token = authHeader && authHeader.split(" ")[1];
 
@@ -25,5 +25,3 @@ const authenticateToken = async (ctx: Koa.Context, next: Koa.Next): Promise<Next
 		throw Error(e);
 	}
 };
-
-export default authenticateToken;

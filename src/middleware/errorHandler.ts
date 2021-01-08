@@ -1,5 +1,5 @@
 import Koa, { Next } from "koa";
-import { IResponse } from "../types/IRoute";
+import { IResponse } from "../types/IAbstract";
 
 export default async (ctx: Koa.Context, next: Koa.Next): Promise<Next> => {
 	try {

@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 import config from "../helpers/config";
-import IMailOptions from "../types/IMailOptions";
+import { IMailOptions } from "../types/IAbstract";
 
 const transporter = nodemailer.createTransport({
 	service: "gmail",

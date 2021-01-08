@@ -1,12 +1,10 @@
 import koa, { Next } from "koa";
 import Router from "koa-router";
 import { IDeleteAccount, ILogin, IRegister, IUpdateEmail, IUpdatePass } from "../types/IUserActions";
-import { signUser } from "../helpers/jwt";
-import { IJwtPayload } from "../types/IJWT";
 import { RequestErrors } from "../types/Constants";
-import { IResponse } from "../types/IRoute";
+import { IResponse, IJwtPayload } from "../types/IAbstract";
+import { signUser } from "../helpers/jwt";
 import jwt from "../middleware/jwt";
-import limiter from "../middleware/limiter";
 import user from "../repositories/UserRepository";
 
 const router = new Router({ prefix: "/user" });
@@ -48,7 +46,7 @@ router.post("/validate", jwt, async (ctx: koa.Context, next: koa.Next): Promise<
 	}
 });
 
-router.post("/update/email", limiter, jwt, async (ctx: koa.Context, next: koa.Next): Promise<Next> => {
+router.post("/update/email", jwt, async (ctx: koa.Context, next: koa.Next): Promise<Next> => {
 
 	const req = <IUpdateEmail>ctx.request.body;
 	if (!req.newEmail) throw Error(RequestErrors.missingNewEmail);
@@ -67,7 +65,7 @@ router.post("/update/email", limiter, jwt, async (ctx: koa.Context, next: koa.Ne
 	}
 });
 
-router.post("/update/password", limiter, jwt, async (ctx: koa.Context, next: koa.Next): Promise<Next> => {
+router.post("/update/password", jwt, async (ctx: koa.Context, next: koa.Next): Promise<Next> => {
 
 	const req = <IUpdatePass>ctx.request.body;
 	if (!req.newPassword) throw Error(RequestErrors.missingNewPassword);

@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import dateFormat from "dateformat";
 import config from "./config";
-import { IJWT, IJwtPayload } from "../types/IJWT";
+import { IJWT, IJwtPayload } from "../types/IAbstract";
 
 export const sign = async (payload: IJwtPayload): Promise<string> => {
 	try {

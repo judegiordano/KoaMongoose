@@ -1,8 +1,7 @@
-import User from "../models/User";
-import IUser from "../types/entities/IUser";
+import User, { IUser } from "../models/User";
 import { IDeleteAccount, ILogin, IRegister, IUpdateEmail, IUpdatePass } from "../types/IUserActions";
 import { compare, hash } from "../helpers/password";
-import { UserErrors } from "../types/Constants";
+import { UserErrors, Nums } from "../types/Constants";
 import sendMail from "../services/mailer";
 
 export default class UserRepository {
@@ -58,6 +57,12 @@ export default class UserRepository {
 			});
 			if (!exists) throw Error(UserErrors.wrongCreds);
 
+			const timestamp = +new Date(exists.lastUpdated);
+			const now = +new Date();
+			if ((now - timestamp) < Nums.oneDay) {
+				throw Error(UserErrors.rateLimit);
+			}
+
 			const taken = <IUser>await User.findOne({ email: update.newEmail });
 			if (taken) throw Error(UserErrors.emailTaken);
 
@@ -79,6 +84,12 @@ export default class UserRepository {
 
 			});
 			if (!exists) throw Error(UserErrors.wrongCreds);
+
+			const timestamp = +new Date(exists.lastUpdated);
+			const now = +new Date();
+			if ((now - timestamp) < Nums.oneDay) {
+				throw Error(UserErrors.rateLimit);
+			}
 
 			const hashedPass = await hash(update.newPassword);
 

@@ -21,7 +21,8 @@ export const enum UserErrors {
 	emailNotFound = "email not found",
 	wrongPassword = "incorrect password",
 	wrongId = "no user found matching given id",
-	wrongCreds = "no user found matching given id and email"
+	wrongCreds = "no user found matching given id and email",
+	rateLimit = "Value changed too recently. Try Again Later"
 }
 
 export const enum RateLimit {
@@ -36,4 +37,8 @@ export const enum Database {
 
 export const enum CacheNames {
 	getById = "getOneUserById"
+}
+
+export const enum Nums {
+	oneDay = 86400000 // 24 * 60 * 60 * 1000
 }

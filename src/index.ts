@@ -8,6 +8,7 @@ const start = async (): Promise<void> => {
 	try {
 		await connect();
 	} catch (e) {
+		logger.info(e);
 		throw Error(e);
 	}
 	app.listen(config.PORT, () => {
