@@ -9,7 +9,9 @@ export const enum RequestErrors {
 	missingBody = "missing body { email:<string>, password:<string> }",
 	missingEmail = "missing email field { email:<string> }",
 	missingNewEmail = "missing new email field { newEmail:<string> }",
-	missingNewPassword = "missing new password field { newPassword:<string> }"
+	missingNewPassword = "missing new password field { newPassword:<string> }",
+	missingAuthHeaders = "missing appcode || apptoken",
+	invalidAuthHeaders = "invalid appcode || apptoken"
 }
 
 export const enum JWTErrs {
@@ -23,6 +25,11 @@ export const enum UserErrors {
 	wrongId = "no user found matching given id",
 	wrongCreds = "no user found matching given id and email",
 	rateLimit = "Value changed too recently. Try Again Later"
+}
+
+export const enum UtilityErrors {
+	wrongEmail = "no user found matching given email",
+	wrongId = "no user found matching given id"
 }
 
 export const enum RateLimit {

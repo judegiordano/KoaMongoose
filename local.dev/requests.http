@@ -1,3 +1,4 @@
+###
 POST http://localhost:3000/api/user/register HTTP/1:1
 Content-Type: application/json
 
@@ -15,13 +16,21 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:3000/api/user/validate
+POST http://localhost:3000/api/user/validate HTTP/1:1
+content-type: application/json
 Authorization: Bearer token
 
 ###
 POST http://localhost:3000/api/user/update/email HTTP/1:1
+content-type: application/json
 Authorization: Bearer token
 
 {
 	"newEmail": "mail3@mail.com"
 }
+
+###
+GET http://localhost:3000/api/utility/user/email/mail@mail.com HTTP/1:1
+content-type: application/json
+apptoken: {{$dotenv DEV_APPTOKEN}}
+appcode: {{$dotenv DEV_APPCODE}}

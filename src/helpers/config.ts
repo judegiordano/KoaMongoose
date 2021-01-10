@@ -23,7 +23,9 @@ else {
 const config = {
 	NODE_ENV: <Environment>env,
 	PORT: <number>parseInt(process.env.PORT) || 3000,
-	CONNECTION_STRING: <string>process.env.CONNECTION_STRING || "",
+	APPTOKEN: <string>process.env.APPTOKEN || undefined,
+	APPCODE: <string>process.env.APPCODE || undefined,
+	CONNECTION_STRING: <string>process.env.CONNECTION_STRING || undefined,
 	JWT_SECRET: <string>process.env.JWT_SECRET || undefined,
 	JWT_EXPIRATION: <string | number>"7d",
 	EMAIL: <string>process.env.EMAIL || undefined,
@@ -51,13 +53,16 @@ if (config.CONNECTION_STRING === undefined) {
 	throw Error("CONNECTION_STRING not specified");
 }
 else if (config.JWT_SECRET === undefined) {
-	throw Error("JWT_SECRET must be set");
+	throw Error("JWT_SECRET not specified");
 }
 else if (config.EMAIL === undefined) {
-	throw Error("EMAIL_SERVICE must be set");
+	throw Error("EMAIL_SERVICE not specified");
 }
 else if (config.EMAIL_PASSWORD === undefined) {
-	throw Error("EMAIL_PASSWORD must be set");
+	throw Error("EMAIL_PASSWORD not specified");
+}
+else if (config.APPTOKEN === undefined || config.APPCODE === undefined) {
+	throw Error("APPTOKEN || APPCODE not specified");
 }
 
 export default config;
