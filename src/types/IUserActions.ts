@@ -9,19 +9,19 @@ export interface IRegister {
 }
 
 export interface IUpdateEmail {
-	_id: string,
+	id: number,
 	email: string,
 	newEmail: string
 }
 
 export interface IUpdatePass {
-	_id: string,
+	id: number,
 	email: string,
 	newPassword: string
 }
 
 export interface IDeleteAccount {
-	_id: string,
+	id: number,
 	email: string,
 	password: string
 }

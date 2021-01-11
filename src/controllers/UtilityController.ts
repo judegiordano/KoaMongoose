@@ -7,7 +7,7 @@ const router = new Router({ prefix: "/utility" });
 router.use(appRestriction);
 
 router.get("/user/id/:id", async (ctx: koa.Context, next: koa.Next): Promise<Next> => {
-	const req: string = ctx.params.id;
+	const req: number = ctx.params.id;
 	try {
 		ctx.body = await utility.GetOneById(req);
 		return await next();

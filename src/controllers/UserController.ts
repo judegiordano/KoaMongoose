@@ -53,7 +53,7 @@ router.post("/update/email", jwt, async (ctx: koa.Context, next: koa.Next): Prom
 
 	try {
 		const query = await user.UpdateEmail({
-			_id: ctx.state.jwt._id,
+			id: ctx.state.jwt.id,
 			email: ctx.state.jwt.email,
 			newEmail: req.newEmail
 		});
@@ -72,7 +72,7 @@ router.post("/update/password", jwt, async (ctx: koa.Context, next: koa.Next): P
 
 	try {
 		const query = await user.UpdatePassword({
-			_id: ctx.state.jwt._id,
+			id: ctx.state.jwt.id,
 			email: ctx.state.jwt.email,
 			newPassword: req.newPassword
 		});
@@ -91,7 +91,7 @@ router.post("/delete", jwt, async (ctx: koa.Context, next: koa.Next): Promise<Ne
 
 	try {
 		await user.DeleteUser({
-			_id: ctx.state.jwt._id,
+			id: ctx.state.jwt.id,
 			email: req.email,
 			password: req.password
 		});

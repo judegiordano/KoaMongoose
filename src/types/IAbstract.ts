@@ -6,6 +6,7 @@ export interface IResponse {
 
 export interface IJwtPayload {
 	_id: string,
+	id: number,
 	created: Date,
 	activated: boolean,
 	email: string
@@ -13,6 +14,7 @@ export interface IJwtPayload {
 
 export interface IJWT {
 	_id: string,
+	id: number,
 	created: Date,
 	activated: boolean,
 	email: string,

@@ -3,9 +3,9 @@ import { UtilityErrors as Err } from "../types/Constants";
 
 export default class UserRepository {
 
-	public static async GetOneById(id: string): Promise<IUser> {
+	public static async GetOneById(id: number): Promise<IUser> {
 		try {
-			const user = await User.findOne({ _id: id });
+			const user = await User.findOne({ id: id }).lean();
 			if (!user) {
 				throw Error(Err.wrongId);
 			}

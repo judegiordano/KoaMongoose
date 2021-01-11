@@ -18,6 +18,7 @@ export const verify = async (token: string): Promise<IJWT> => {
 		const data = <IJWT>jwt.verify(token, config.JWT_SECRET);
 		return {
 			_id: data._id,
+			id: data.id,
 			created: data.created,
 			activated: data.activated,
 			email: data.email,
@@ -34,6 +35,7 @@ export const verify = async (token: string): Promise<IJWT> => {
 export const signUser = async (user: IJwtPayload): Promise<string> => {
 	const token = await sign({
 		_id: user._id,
+		id: user.id,
 		email: user.email,
 		created: user.created,
 		activated: user.activated

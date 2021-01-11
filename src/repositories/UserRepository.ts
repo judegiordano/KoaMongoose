@@ -1,5 +1,6 @@
 import User, { IUser } from "../models/User";
 import { IDeleteAccount, ILogin, IRegister, IUpdateEmail, IUpdatePass } from "../types/IUserActions";
+import AutoIncrement from "../helpers/autoIncrement";
 import { compare, hash } from "../helpers/password";
 import { UserErrors, Nums } from "../types/Constants";
 import sendMail from "../services/mailer";
@@ -36,6 +37,7 @@ export default class UserRepository {
 			const hashedPass = await hash(register.password);
 
 			const newUser = new User();
+			newUser.id = await AutoIncrement("User");
 			newUser.email = register.email;
 			newUser.password = hashedPass;
 			newUser.activated = false;
@@ -52,7 +54,7 @@ export default class UserRepository {
 	public static async UpdateEmail(update: IUpdateEmail): Promise<IUser> {
 		try {
 			const exists = <IUser>await User.findOne({
-				_id: update._id,
+				id: update.id,
 				email: update.email
 			});
 			if (!exists) throw Error(UserErrors.wrongCreds);
@@ -79,7 +81,7 @@ export default class UserRepository {
 	public static async UpdatePassword(update: IUpdatePass): Promise<IUser> {
 		try {
 			const exists = <IUser>await User.findOne({
-				_id: update._id,
+				id: update.id,
 				email: update.email
 
 			});
@@ -106,7 +108,7 @@ export default class UserRepository {
 	public static async DeleteUser(remove: IDeleteAccount): Promise<void> {
 		try {
 			const exists = <IUser>await User.findOne({
-				_id: remove._id,
+				id: remove.id,
 				email: remove.email
 			});
 			if (!exists) throw Error(UserErrors.wrongCreds);
