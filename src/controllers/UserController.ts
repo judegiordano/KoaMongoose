@@ -99,7 +99,7 @@ router.post("/delete", jwt, async (ctx: koa.Context, next: koa.Next): Promise<Ne
 		ctx.body = {
 			ok: true,
 			status: 200,
-			message: "account deleted"
+			data: "account deleted"
 		} as IResponse;
 		return await next();
 	} catch (e) {
@@ -116,7 +116,7 @@ router.post("/forgotpassword", async (ctx: koa.Context, next: koa.Next): Promise
 		ctx.body = {
 			ok: true,
 			status: 200,
-			message: `email sent to ${req.email}`
+			data: `email sent to ${req.email}`
 		} as IResponse;
 		return await next();
 	} catch (e) {

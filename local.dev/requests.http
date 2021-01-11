@@ -40,13 +40,9 @@ Authorization: Bearer token
 }
 
 ###
-GET http://localhost:3000/api/utility/user/email/mail@mail.com HTTP/1:1
-content-type: application/json
-apptoken: {{$dotenv DEV_APPTOKEN}}
-appcode: {{$dotenv DEV_APPCODE}}
-
-###
-GET http://localhost:3000/api/utility/user/id/3 HTTP/1:1
+GET http://localhost:3000/api/utility/filter/user
+?id=3
+&email=mail4@mail.com
 content-type: application/json
 apptoken: {{$dotenv DEV_APPTOKEN}}
 appcode: {{$dotenv DEV_APPCODE}}

@@ -29,7 +29,9 @@ export const enum UserErrors {
 
 export const enum UtilityErrors {
 	wrongEmail = "no user found matching given email",
-	wrongId = "no user found matching given id"
+	wrongCredentials = "no user found matching given email or id",
+	wrongId = "no user found matching given id",
+	missingParams = "missing request params email || id"
 }
 
 export const enum RateLimit {

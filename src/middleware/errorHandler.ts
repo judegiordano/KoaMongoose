@@ -9,7 +9,7 @@ export default async (ctx: Koa.Context, next: Koa.Next): Promise<Next> => {
 		ctx.body = {
 			ok: false,
 			status: ctx.status,
-			message: e.message
+			data: e.message
 		} as IResponse;
 	}
 };
