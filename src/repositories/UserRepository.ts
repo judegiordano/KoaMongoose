@@ -83,7 +83,6 @@ export default class UserRepository {
 			const exists = <IUser>await User.findOne({
 				id: update.id,
 				email: update.email
-
 			});
 			if (!exists) throw Error(UserErrors.wrongCreds);
 

@@ -25,4 +25,5 @@ router.get("/filter/user", async (ctx: koa.Context, next: koa.Next): Promise<Nex
 		throw Error(e);
 	}
 });
+
 export default router;

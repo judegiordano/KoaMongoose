@@ -7,6 +7,7 @@
 		"pkief.material-icon-theme",
 		"coenraads.bracket-pair-colorizer-2",
 		"oouo-diogo-perdigao.docthis",
-		"ms-mssql.mssql"
+		"ms-mssql.mssql",
+		"dbaeumer.vscode-eslint"
 	]
 }
