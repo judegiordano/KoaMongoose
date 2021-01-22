@@ -46,6 +46,13 @@ const config = {
 	CACHE_SETTINGS: {
 		stdTTL: <number>100,
 		checkperiod: <number>120
+	},
+	MAIL_TRANSPORTER: {
+		service: "gmail",
+		auth: {
+			user: <string>process.env.EMAIL,
+			pass: <string>process.env.EMAIL_PASSWORD
+		}
 	}
 };
 

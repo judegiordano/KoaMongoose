@@ -1,5 +1,5 @@
 import Koa, { Next } from "koa";
-import { verify } from "../helpers/jwt";
+import Jwt from "../helpers/jwt";
 import { JWTErrs } from "../types/Constants";
 
 export default async (ctx: Koa.Context, next: Koa.Next): Promise<Next> => {
@@ -12,7 +12,7 @@ export default async (ctx: Koa.Context, next: Koa.Next): Promise<Next> => {
 	}
 
 	try {
-		const payload = await verify(token);
+		const payload = await Jwt.Verify(token);
 		if (!payload) {
 			ctx.state.jwt = null;
 			throw Error(JWTErrs.invalidToken);

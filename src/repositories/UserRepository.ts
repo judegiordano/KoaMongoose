@@ -1,9 +1,9 @@
 import User, { IUser } from "../models/User";
 import { IDeleteAccount, ILogin, IRegister, IUpdateEmail, IUpdatePass } from "../types/IUserActions";
 import AutoIncrement from "../helpers/autoIncrement";
-import { compare, hash } from "../helpers/password";
+import Password from "../helpers/password";
 import { UserErrors, Nums } from "../types/Constants";
-import sendMail from "../services/mailer";
+import Mailer from "../services/mailer";
 
 export default class UserRepository {
 
@@ -14,7 +14,7 @@ export default class UserRepository {
 			});
 			if (!query) throw Error(UserErrors.emailNotFound);
 
-			const hash = await compare(login.password, query.password);
+			const hash = await Password.Compare(login.password, query.password);
 			if (!hash) throw Error(UserErrors.wrongPassword);
 
 			return query;
@@ -34,7 +34,7 @@ export default class UserRepository {
 		}
 
 		try {
-			const hashedPass = await hash(register.password);
+			const hashedPass = await Password.Hash(register.password);
 
 			const newUser = new User();
 			newUser.id = await AutoIncrement("User");
@@ -92,7 +92,7 @@ export default class UserRepository {
 				throw Error(UserErrors.rateLimit);
 			}
 
-			const hashedPass = await hash(update.newPassword);
+			const hashedPass = await Password.Hash(update.newPassword);
 
 			exists.password = hashedPass;
 			exists.lastUpdated = new Date();
@@ -112,7 +112,7 @@ export default class UserRepository {
 			});
 			if (!exists) throw Error(UserErrors.wrongCreds);
 
-			const hash = await compare(remove.password, exists.password);
+			const hash = await Password.Compare(remove.password, exists.password);
 			if (!hash) throw Error(UserErrors.wrongPassword);
 
 			await User.deleteOne(exists);
@@ -129,7 +129,7 @@ export default class UserRepository {
 			});
 			if (!query) throw Error(UserErrors.emailNotFound);
 
-			await sendMail({ to: query.email, subject: "Test", text: "This is just a test" });
+			await Mailer.SendMail({ to: query.email, subject: "Test", text: "This is just a test" });
 		} catch (e) {
 			throw Error(e);
 		}
