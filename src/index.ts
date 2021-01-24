@@ -8,7 +8,7 @@ const start = async (): Promise<void> => {
 	try {
 		await connect();
 	} catch (e) {
-		logger.info(e);
+		logger.error(e);
 		throw Error(e);
 	}
 	app.listen(config.PORT, () => {
@@ -17,11 +17,10 @@ const start = async (): Promise<void> => {
 	});
 };
 
+
 if (cluster.isMaster) {
 	for (let i: number = 0; i < config.CORES; i++) {
 		cluster.fork();
 	}
 }
-else {
-	start();
-}
+else start();

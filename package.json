@@ -1,7 +1,25 @@
 {
-   "name": "tsorm",
+   "name": "koa-mongoose",
    "version": "0.0.1",
-   "description": "Awesome project developed with TypeORM.",
+   "description": "Koa.js Web Api With MongoDb as a Database",
+   "author": {
+		"name": "Jude Giordano",
+		"url": "https://github.com/judegiordano"
+   },
+   "private": true,
+   "repository": {
+		"type": "git",
+		"url": "https://github.com/judegiordano/KoaMongoose"
+  	},
+   "license": "MIT",
+   "keywords": [
+		"typescript",
+		"node",
+		"koa",
+		"api",
+		"mongodb"
+  	],
+   "main": "build/index.js",
    "scripts": {
       "prebuild": "eslint --fix --ext .ts,.tsx .",
       "dev": "ts-node src/index.ts",

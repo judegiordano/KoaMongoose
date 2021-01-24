@@ -10,4 +10,4 @@
 ## Steps to run this project:
 1. Run `npm i`
 2. Setup `.env` variables for `config.ts` to connect to db server
-3. Run `npm start` command or a pre-configured `launch.json` environment
+3. Run `npm start` command, or use a pre-configured `launch.json` environment
