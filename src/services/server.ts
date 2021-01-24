@@ -12,7 +12,7 @@ import errorHandler from "../middleware/errorHandler";
 import config from "../helpers/config";
 import { Environment as Env } from "../types/Constants";
 
-const app = new Koa();
+const app: Koa = new Koa();
 
 app.use(errorHandler);
 if (config.NODE_ENV === Env.prod || config.NODE_ENV === Env.stg) {

@@ -18,7 +18,7 @@ const start = async (): Promise<void> => {
 };
 
 if (cluster.isMaster) {
-	for (let i = 0; i < config.CORES; i++) {
+	for (let i: number = 0; i < config.CORES; i++) {
 		cluster.fork();
 	}
 }

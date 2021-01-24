@@ -3,8 +3,8 @@ import config from "../helpers/config";
 import { RequestErrors } from "../types/Constants";
 
 export default async (ctx: Koa.Context, next: Koa.Next): Promise<Next> => {
-	const apptoken = ctx.header["apptoken"];
-	const appcode = ctx.header["appcode"];
+	const apptoken: any = ctx.header["apptoken"];
+	const appcode: any = ctx.header["appcode"];
 	try {
 		if (!apptoken || !appcode) {
 			throw Error(RequestErrors.missingAuthHeaders);

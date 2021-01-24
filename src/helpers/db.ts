@@ -3,8 +3,6 @@ import logger from "../services/logger";
 import config from "../helpers/config";
 import { Database } from "../types/Constants";
 
-const { CONNECTION_STRING } = config;
-
 const connect = async (): Promise<void> => {
 	let connection: string | undefined;
 	try {
@@ -17,7 +15,7 @@ const connect = async (): Promise<void> => {
 		if (connection) {
 			await mongoose.connect(connection);
 		} else {
-			await mongoose.connect(CONNECTION_STRING, {
+			await mongoose.connect(config.CONNECTION_STRING, {
 				useNewUrlParser: true,
 				useUnifiedTopology: true,
 				useFindAndModify: false,

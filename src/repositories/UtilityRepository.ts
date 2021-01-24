@@ -5,7 +5,7 @@ export default class UserRepository {
 
 	public static async FilterUser(email: string, id: number): Promise<IUser> {
 		try {
-			const user = await User.find({
+			const user: IUser = await User.find({
 				$or: [
 					{ email: email },
 					{ id: id }

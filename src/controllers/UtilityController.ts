@@ -5,7 +5,7 @@ import utility from "../repositories/UtilityRepository";
 import { UtilityErrors as Err } from "../types/Constants";
 import { IResponse } from "../types/IAbstract";
 
-const router = new Router({ prefix: "/utility" });
+const router: Router = new Router({ prefix: "/utility" });
 router.use(appRestriction);
 
 router.get("/filter/user", async (ctx: koa.Context, next: koa.Next): Promise<Next> => {

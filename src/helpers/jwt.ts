@@ -17,7 +17,7 @@ export default class Jwt {
 
 	public static async Verify(token: string): Promise<IJWT> {
 		try {
-			const data = <IJWT>jwt.verify(token, config.JWT_SECRET);
+			const data: IJWT = <IJWT>jwt.verify(token, config.JWT_SECRET);
 			return {
 				_id: data._id,
 				id: data.id,
@@ -35,7 +35,7 @@ export default class Jwt {
 	}
 
 	public static async SignUser(user: IJwtPayload): Promise<string> {
-		const token = await Jwt.Sign({
+		const token: string = await Jwt.Sign({
 			_id: user._id,
 			id: user.id,
 			email: user.email,

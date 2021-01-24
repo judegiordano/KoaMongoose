@@ -5,8 +5,9 @@ import { Environment, RateLimit } from "../types/Constants";
 
 dotenv.config();
 
-let env;
-let cors;
+let env: Environment;
+let cors: number;
+
 if (process.env.NODE_ENV === Environment.prod) {
 	env = Environment.prod;
 	cors = os.cpus().length;

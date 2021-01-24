@@ -6,12 +6,13 @@ import Checks from "../helpers/businessLogic";
 import Jwt from "../helpers/jwt";
 import jwt from "../middleware/jwt";
 import user from "../repositories/UserRepository";
+import { IUser } from "../models/User";
 
-const router = new Router({ prefix: "/user" });
+const router: Router = new Router({ prefix: "/user" });
 
 router.post("/login", async (ctx: koa.Context, next: koa.Next): Promise<Next> => {
 
-	const req = Checks.CheckLogin(ctx.request.body as T.ILogin);
+	const req: T.ILogin = Checks.CheckLogin(ctx.request.body as T.ILogin);
 
 	try {
 		const query: IJwtPayload = await user.Login(req);
@@ -24,7 +25,7 @@ router.post("/login", async (ctx: koa.Context, next: koa.Next): Promise<Next> =>
 
 router.post("/register", async (ctx: koa.Context, next: koa.Next): Promise<Next> => {
 
-	const req = Checks.CheckRegister(ctx.request.body as T.IRegister);
+	const req: T.IRegister = Checks.CheckRegister(ctx.request.body as T.IRegister);
 
 	try {
 		const query: IJwtPayload = await user.Register(req);
@@ -46,10 +47,10 @@ router.post("/validate", jwt, async (ctx: koa.Context, next: koa.Next): Promise<
 
 router.post("/update/email", jwt, async (ctx: koa.Context, next: koa.Next): Promise<Next> => {
 
-	const req = Checks.CheckUpdateEmail(ctx.request.body as T.IUpdateEmail);
+	const req: T.IUpdateEmail = Checks.CheckUpdateEmail(ctx.request.body as T.IUpdateEmail);
 
 	try {
-		const query = await user.UpdateEmail({
+		const query: IUser = await user.UpdateEmail({
 			id: ctx.state.jwt.id,
 			email: ctx.state.jwt.email,
 			newEmail: req.newEmail
@@ -64,10 +65,10 @@ router.post("/update/email", jwt, async (ctx: koa.Context, next: koa.Next): Prom
 
 router.post("/update/password", jwt, async (ctx: koa.Context, next: koa.Next): Promise<Next> => {
 
-	const req = Checks.CheckUpdatePassword(ctx.request.body as T.IUpdatePass);
+	const req: T.IUpdatePass = Checks.CheckUpdatePassword(ctx.request.body as T.IUpdatePass);
 
 	try {
-		const query = await user.UpdatePassword({
+		const query: IUser = await user.UpdatePassword({
 			id: ctx.state.jwt.id,
 			email: ctx.state.jwt.email,
 			newPassword: req.newPassword
@@ -82,7 +83,7 @@ router.post("/update/password", jwt, async (ctx: koa.Context, next: koa.Next): P
 
 router.post("/delete", jwt, async (ctx: koa.Context, next: koa.Next): Promise<Next> => {
 
-	const req = Checks.CheckDeleteAccount(ctx.request.body as T.IDeleteAccount);
+	const req: T.IDeleteAccount = Checks.CheckDeleteAccount(ctx.request.body as T.IDeleteAccount);
 
 	try {
 		await user.DeleteUser({
@@ -104,7 +105,7 @@ router.post("/delete", jwt, async (ctx: koa.Context, next: koa.Next): Promise<Ne
 
 router.post("/forgotpassword", async (ctx: koa.Context, next: koa.Next): Promise<Next> => {
 
-	const req = Checks.CheckForgotPassword(ctx.request.body);
+	const req: any = Checks.CheckForgotPassword(ctx.request.body);
 
 	try {
 		await user.ForgotPassword(req.email);

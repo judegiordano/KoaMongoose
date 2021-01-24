@@ -9,12 +9,12 @@ export default class UserRepository {
 
 	public static async Login(login: ILogin): Promise<IUser> {
 		try {
-			const query = <IUser>await User.findOne({
+			const query: IUser = await User.findOne({
 				email: login.email,
 			});
 			if (!query) throw Error(UserErrors.emailNotFound);
 
-			const hash = await Password.Compare(login.password, query.password);
+			const hash: boolean = await Password.Compare(login.password, query.password);
 			if (!hash) throw Error(UserErrors.wrongPassword);
 
 			return query;
@@ -25,7 +25,7 @@ export default class UserRepository {
 
 	public static async Register(register: IRegister): Promise<IUser> {
 		try {
-			const exists = <IUser>await User.findOne({
+			const exists: IUser = await User.findOne({
 				email: register.email
 			});
 			if (exists) throw Error(UserErrors.emailTaken);
@@ -34,9 +34,9 @@ export default class UserRepository {
 		}
 
 		try {
-			const hashedPass = await Password.Hash(register.password);
+			const hashedPass: string = await Password.Hash(register.password);
 
-			const newUser = new User();
+			const newUser: IUser = new User();
 			newUser.id = await AutoIncrement("User");
 			newUser.email = register.email;
 			newUser.password = hashedPass;
@@ -53,19 +53,19 @@ export default class UserRepository {
 
 	public static async UpdateEmail(update: IUpdateEmail): Promise<IUser> {
 		try {
-			const exists = <IUser>await User.findOne({
+			const exists: IUser = await User.findOne({
 				id: update.id,
 				email: update.email
 			});
 			if (!exists) throw Error(UserErrors.wrongCreds);
 
-			const timestamp = +new Date(exists.lastUpdated);
-			const now = +new Date();
+			const timestamp: number = +new Date(exists.lastUpdated);
+			const now: number = +new Date();
 			if ((now - timestamp) < Nums.oneDay) {
 				throw Error(UserErrors.rateLimit);
 			}
 
-			const taken = <IUser>await User.findOne({ email: update.newEmail });
+			const taken: IUser = await User.findOne({ email: update.newEmail });
 			if (taken) throw Error(UserErrors.emailTaken);
 
 			exists.email = update.newEmail;
@@ -80,19 +80,19 @@ export default class UserRepository {
 
 	public static async UpdatePassword(update: IUpdatePass): Promise<IUser> {
 		try {
-			const exists = <IUser>await User.findOne({
+			const exists: IUser = await User.findOne({
 				id: update.id,
 				email: update.email
 			});
 			if (!exists) throw Error(UserErrors.wrongCreds);
 
-			const timestamp = +new Date(exists.lastUpdated);
-			const now = +new Date();
+			const timestamp: number = +new Date(exists.lastUpdated);
+			const now: number = +new Date();
 			if ((now - timestamp) < Nums.oneDay) {
 				throw Error(UserErrors.rateLimit);
 			}
 
-			const hashedPass = await Password.Hash(update.newPassword);
+			const hashedPass: string = await Password.Hash(update.newPassword);
 
 			exists.password = hashedPass;
 			exists.lastUpdated = new Date();
@@ -106,13 +106,13 @@ export default class UserRepository {
 
 	public static async DeleteUser(remove: IDeleteAccount): Promise<void> {
 		try {
-			const exists = <IUser>await User.findOne({
+			const exists: IUser = await User.findOne({
 				id: remove.id,
 				email: remove.email
 			});
 			if (!exists) throw Error(UserErrors.wrongCreds);
 
-			const hash = await Password.Compare(remove.password, exists.password);
+			const hash: boolean = await Password.Compare(remove.password, exists.password);
 			if (!hash) throw Error(UserErrors.wrongPassword);
 
 			await User.deleteOne(exists);
@@ -124,7 +124,7 @@ export default class UserRepository {
 
 	public static async ForgotPassword(email: string): Promise<void> {
 		try {
-			const query = <IUser>await User.findOne({
+			const query: IUser = await User.findOne({
 				email: email,
 			});
 			if (!query) throw Error(UserErrors.emailNotFound);
