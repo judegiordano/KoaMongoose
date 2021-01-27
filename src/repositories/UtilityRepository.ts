@@ -1,9 +1,10 @@
 import User, { IUser } from "../models/User";
+import UtilityRepositoryBase from "./abstract/UtilityRepositoryBase";
 import { UtilityErrors as Err } from "../types/Constants";
 
-export default class UserRepository {
+class UtilityRepository extends UtilityRepositoryBase {
 
-	public static async FilterUser(email: string, id: number): Promise<IUser> {
+	public async FilterUser(email: string, id: number): Promise<IUser> {
 		try {
 			const user: IUser = await User.find({
 				$or: [
@@ -20,3 +21,5 @@ export default class UserRepository {
 		}
 	}
 }
+
+export default new UtilityRepository();

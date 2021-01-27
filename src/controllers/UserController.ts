@@ -5,7 +5,7 @@ import { IResponse, IJwtPayload } from "../types/IAbstract";
 import Checks from "../helpers/businessLogic";
 import Jwt from "../helpers/jwt";
 import jwt from "../middleware/jwt";
-import user from "../repositories/UserRepository";
+import User from "../repositories/UserRepository";
 import { IUser } from "../models/User";
 
 const router: Router = new Router({ prefix: "/user" });
@@ -15,7 +15,7 @@ router.post("/login", async (ctx: koa.Context, next: koa.Next): Promise<Next> =>
 	const req: T.ILogin = Checks.CheckLogin(ctx.request.body as T.ILogin);
 
 	try {
-		const query: IJwtPayload = await user.Login(req);
+		const query: IJwtPayload = await User.Login(req);
 		ctx.body = { token: await Jwt.SignUser(query) };
 		return await next();
 	} catch (e) {
@@ -28,7 +28,7 @@ router.post("/register", async (ctx: koa.Context, next: koa.Next): Promise<Next>
 	const req: T.IRegister = Checks.CheckRegister(ctx.request.body as T.IRegister);
 
 	try {
-		const query: IJwtPayload = await user.Register(req);
+		const query: IJwtPayload = await User.Register(req);
 		ctx.body = { token: await Jwt.SignUser(query) };
 		return await next();
 	} catch (e) {
@@ -50,7 +50,7 @@ router.post("/update/email", jwt, async (ctx: koa.Context, next: koa.Next): Prom
 	const req: T.IUpdateEmail = Checks.CheckUpdateEmail(ctx.request.body as T.IUpdateEmail);
 
 	try {
-		const query: IUser = await user.UpdateEmail({
+		const query: IUser = await User.UpdateEmail({
 			id: ctx.state.jwt.id,
 			email: ctx.state.jwt.email,
 			newEmail: req.newEmail
@@ -68,7 +68,7 @@ router.post("/update/password", jwt, async (ctx: koa.Context, next: koa.Next): P
 	const req: T.IUpdatePass = Checks.CheckUpdatePassword(ctx.request.body as T.IUpdatePass);
 
 	try {
-		const query: IUser = await user.UpdatePassword({
+		const query: IUser = await User.UpdatePassword({
 			id: ctx.state.jwt.id,
 			email: ctx.state.jwt.email,
 			newPassword: req.newPassword
@@ -86,7 +86,7 @@ router.post("/delete", jwt, async (ctx: koa.Context, next: koa.Next): Promise<Ne
 	const req: T.IDeleteAccount = Checks.CheckDeleteAccount(ctx.request.body as T.IDeleteAccount);
 
 	try {
-		await user.DeleteUser({
+		await User.DeleteUser({
 			id: ctx.state.jwt.id,
 			email: req.email,
 			password: req.password
@@ -108,7 +108,7 @@ router.post("/forgotpassword", async (ctx: koa.Context, next: koa.Next): Promise
 	const req: any = Checks.CheckForgotPassword(ctx.request.body);
 
 	try {
-		await user.ForgotPassword(req.email);
+		await User.ForgotPassword(req.email);
 		ctx.body = {
 			ok: true,
 			status: 200,

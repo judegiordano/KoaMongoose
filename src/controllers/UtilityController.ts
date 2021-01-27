@@ -1,7 +1,7 @@
 import koa, { Next } from "koa";
 import Router from "koa-router";
 import appRestriction from "../middleware/appRestriction";
-import utility from "../repositories/UtilityRepository";
+import Util from "../repositories/UtilityRepository";
 import { UtilityErrors as Err } from "../types/Constants";
 import { IResponse } from "../types/IAbstract";
 
@@ -18,7 +18,7 @@ router.get("/filter/user", async (ctx: koa.Context, next: koa.Next): Promise<Nex
 		ctx.body = {
 			ok: true,
 			status: 200,
-			data: await utility.FilterUser(email, id)
+			data: await Util.FilterUser(email, id)
 		} as IResponse;
 		return await next();
 	} catch (e) {

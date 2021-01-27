@@ -1,13 +1,14 @@
 import User, { IUser } from "../models/User";
-import { IDeleteAccount, ILogin, IRegister, IUpdateEmail, IUpdatePass } from "../types/IUserActions";
+import * as T from "../types/IUserActions";
 import AutoIncrement from "../helpers/autoIncrement";
 import Password from "../helpers/password";
 import { UserErrors, Nums } from "../types/Constants";
 import Mailer from "../services/mailer";
+import UserRepositoryBase from "./abstract/UserRepositoryBase";
 
-export default class UserRepository {
+class UserRepository extends UserRepositoryBase {
 
-	public static async Login(login: ILogin): Promise<IUser> {
+	public async Login(login: T.ILogin): Promise<IUser> {
 		try {
 			const query: IUser = await User.findOne({
 				email: login.email,
@@ -23,7 +24,7 @@ export default class UserRepository {
 		}
 	}
 
-	public static async Register(register: IRegister): Promise<IUser> {
+	public async Register(register: T.IRegister): Promise<IUser> {
 		try {
 			const exists: IUser = await User.findOne({
 				email: register.email
@@ -51,7 +52,7 @@ export default class UserRepository {
 		}
 	}
 
-	public static async UpdateEmail(update: IUpdateEmail): Promise<IUser> {
+	public async UpdateEmail(update: T.IUpdateEmail): Promise<IUser> {
 		try {
 			const exists: IUser = await User.findOne({
 				id: update.id,
@@ -78,7 +79,7 @@ export default class UserRepository {
 		}
 	}
 
-	public static async UpdatePassword(update: IUpdatePass): Promise<IUser> {
+	public async UpdatePassword(update: T.IUpdatePass): Promise<IUser> {
 		try {
 			const exists: IUser = await User.findOne({
 				id: update.id,
@@ -104,7 +105,7 @@ export default class UserRepository {
 		}
 	}
 
-	public static async DeleteUser(remove: IDeleteAccount): Promise<void> {
+	public async DeleteUser(remove: T.IDeleteAccount): Promise<void> {
 		try {
 			const exists: IUser = await User.findOne({
 				id: remove.id,
@@ -122,7 +123,7 @@ export default class UserRepository {
 		}
 	}
 
-	public static async ForgotPassword(email: string): Promise<void> {
+	public async ForgotPassword(email: string): Promise<void> {
 		try {
 			const query: IUser = await User.findOne({
 				email: email,
@@ -135,3 +136,5 @@ export default class UserRepository {
 		}
 	}
 }
+
+export default new UserRepository();
