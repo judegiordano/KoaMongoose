@@ -5,7 +5,7 @@ import { IResponse, IJwtPayload } from "../types/IAbstract";
 import Checks from "../helpers/businessLogic";
 import Jwt from "../helpers/jwt";
 import jwt from "../middleware/jwt";
-import User from "../repositories/UserRepository";
+import { UserBase as User } from "../repositories/UserRepository";
 import { IUser } from "../models/User";
 
 const router: Router = new Router({ prefix: "/user" });

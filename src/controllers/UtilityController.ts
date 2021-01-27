@@ -1,7 +1,7 @@
 import koa, { Next } from "koa";
 import Router from "koa-router";
 import appRestriction from "../middleware/appRestriction";
-import Util from "../repositories/UtilityRepository";
+import { Utility as Util } from "../repositories/UtilityRepository";
 import { UtilityErrors as Err } from "../types/Constants";
 import { IResponse } from "../types/IAbstract";
 

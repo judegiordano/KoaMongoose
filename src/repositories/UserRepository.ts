@@ -4,9 +4,9 @@ import AutoIncrement from "../helpers/autoIncrement";
 import Password from "../helpers/password";
 import { UserErrors, Nums } from "../types/Constants";
 import Mailer from "../services/mailer";
-import UserRepositoryBase from "./abstract/UserRepositoryBase";
+import Base from "./abstract/UserRepositoryBase";
 
-class UserRepository extends UserRepositoryBase {
+class UserRepository extends Base {
 
 	public async Login(login: T.ILogin): Promise<IUser> {
 		try {
@@ -137,4 +137,4 @@ class UserRepository extends UserRepositoryBase {
 	}
 }
 
-export default new UserRepository();
+export const UserBase: Base = new UserRepository;

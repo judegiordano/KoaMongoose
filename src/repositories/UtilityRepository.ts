@@ -1,8 +1,8 @@
 import User, { IUser } from "../models/User";
-import UtilityRepositoryBase from "./abstract/UtilityRepositoryBase";
+import Base from "./abstract/UtilityRepositoryBase";
 import { UtilityErrors as Err } from "../types/Constants";
 
-class UtilityRepository extends UtilityRepositoryBase {
+class UtilityRepository extends Base {
 
 	public async FilterUser(email: string, id: number): Promise<IUser> {
 		try {
@@ -21,5 +21,4 @@ class UtilityRepository extends UtilityRepositoryBase {
 		}
 	}
 }
-
-export default new UtilityRepository();
+export const Utility: Base = new UtilityRepository;
